@@ -1,0 +1,53 @@
+# RepCN — guidance for AI agents
+
+RepCN is an open-source Next.js app that turns a pasted React component into a full Next.js repository, with optional GitHub push and Vercel deploy.
+
+- Source: https://github.com/shreyvijayvargiya/repcn
+- Live: https://repcn.vercel.app
+
+## Purpose
+
+Help users go from a single React component + optional instructions to a runnable Next.js app (file tree preview, ZIP download, GitHub repo, Vercel deployment).
+
+## Architecture
+
+- `app/` — Next.js App Router pages and API routes
+- `components/HomeForm.tsx` — main UI: form, file tree preview, push/deploy, connections
+- `components/Navbar.tsx` — GitHub open-source link + light/dark theme toggle
+- `components/ThemeProvider.tsx` — theme state (`repcn-theme` in localStorage)
+- `lib/frameworks.ts` — Next.js / Vite / TanStack metadata + static package versions
+- `lib/generate.ts` — builds framework-specific file sets; file tree helpers
+- `lib/github.ts` — GitHub REST API (create repo, push files via Git Data API)
+- `lib/vercel.ts` — Vercel API (deploy files or GitHub-linked project)
+- `lib/tokens.ts` — httpOnly cookie helpers for GitHub/Vercel tokens (+ env fallbacks)
+
+## API routes
+
+| Method | Path | Role |
+|--------|------|------|
+| GET/POST/DELETE | `/api/connections` | Read / save / clear GitHub & Vercel tokens |
+| POST | `/api/generate` | Server-side generate repo files (preview also runs client-side) |
+| POST | `/api/push` | Create GitHub repo and push generated files |
+| POST | `/api/deploy` | Deploy to Vercel (from files or `owner/repo`) |
+
+## Important behaviors
+
+- Preview repository generates files **in the browser** via `generateRepoFiles` — does not require auth.
+- Push requires a connected GitHub token; deploy requires a connected Vercel token.
+- Theme uses `class` strategy on `<html>` (`dark` class). CSS variables live in `app/globals.css`.
+- Do not commit secrets. Tokens belong in cookies or env vars, never in the repo.
+
+## Safe changes for agents
+
+- Prefer extending `lib/generate.ts` for scaffolding templates.
+- Keep the home form first; connections section stays secondary.
+- Avoid card-heavy UI; match existing token colors (`ink`, `muted`, `line`, `surface`, `accent`).
+- Do not add exploit code, credential logging, or token exposure in client bundles.
+
+## Local commands
+
+```bash
+npm install
+npm run dev
+npm run build
+```

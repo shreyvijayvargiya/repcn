@@ -7,16 +7,42 @@
 :root {
   color-scheme: light;
   --bg: #f7f4ef;
+  --bg-glow-a: #efe8dc;
+  --bg-glow-b: #e7eee8;
   --ink: #1a1a1a;
   --muted: #6b6560;
   --line: #d9d2c8;
+  --surface: #ffffff;
+  --surface-muted: #f0ebe3;
+  --accent: #1a1a1a;
+  --accent-fg: #ffffff;
+  --success: #059669;
+  --folder: #92400e;
+  --code-bg: #ffffff;
+}
+
+.dark {
+  color-scheme: dark;
+  --bg: #12110f;
+  --bg-glow-a: #1c1914;
+  --bg-glow-b: #141a16;
+  --ink: #f3efe8;
+  --muted: #a39e95;
+  --line: #3a3732;
+  --surface: #1c1b18;
+  --surface-muted: #25231f;
+  --accent: #f3efe8;
+  --accent-fg: #12110f;
+  --success: #34d399;
+  --folder: #fbbf24;
+  --code-bg: #161512;
 }
 
 body {
   @apply min-h-screen antialiased;
   background:
-    radial-gradient(1200px 600px at 10% -10%, #efe8dc 0%, transparent 55%),
-    radial-gradient(900px 500px at 100% 0%, #e7eee8 0%, transparent 50%),
+    radial-gradient(1200px 600px at 10% -10%, var(--bg-glow-a) 0%, transparent 55%),
+    radial-gradient(900px 500px at 100% 0%, var(--bg-glow-b) 0%, transparent 50%),
     var(--bg);
   color: var(--ink);
   font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
@@ -25,4 +51,11 @@ body {
 .font-display {
   font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
   font-optical-sizing: auto;
+}
+
+/* Form controls inherit theme */
+input,
+textarea,
+button {
+  color: inherit;
 }

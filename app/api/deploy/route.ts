@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { generateRepoFiles } from '@/lib/generate'
+import { isFrameworkId, isLanguageId } from '@/lib/frameworks'
 import type { RepoFile } from '@/lib/github'
 import {
   deployFilesToVercel,
@@ -28,6 +29,9 @@ export async function POST(req: Request) {
   const instructions =
     typeof body.instructions === 'string' ? body.instructions : ''
   const repoName = typeof body.repoName === 'string' ? body.repoName : undefined
+  const framework = isFrameworkId(body.framework) ? body.framework : 'nextjs'
+  const language = isLanguageId(body.language) ? body.language : 'ts'
+  const shadcn = Boolean(body.shadcn)
   const existingFiles = Array.isArray(body.files)
     ? (body.files as RepoFile[])
     : null
@@ -43,6 +47,9 @@ export async function POST(req: Request) {
       })
       return NextResponse.json({
         mode: 'github',
+        framework,
+        language,
+        shadcn,
         project: result.project,
         deployment: {
           id: result.deployment.id,
@@ -72,6 +79,9 @@ export async function POST(req: Request) {
             componentCode,
             instructions,
             repoName: projectName || repoName,
+            framework,
+            language,
+            shadcn,
           })
 
     const deployment = await deployFilesToVercel(token, {
@@ -85,6 +95,9 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       mode: 'files',
+      framework,
+      language,
+      shadcn,
       deployment: {
         id: deployment.id,
         url: deployment.url ? `https://${deployment.url}` : null,
