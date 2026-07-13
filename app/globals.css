@@ -1,11 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
   color-scheme: light;
+  --bg: #f7f4ef;
+  --ink: #1a1a1a;
+  --muted: #6b6560;
+  --line: #d9d2c8;
 }
 
 body {
-  @apply min-h-screen bg-zinc-50 text-zinc-900 antialiased;
+  @apply min-h-screen antialiased;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, #efe8dc 0%, transparent 55%),
+    radial-gradient(900px 500px at 100% 0%, #e7eee8 0%, transparent 50%),
+    var(--bg);
+  color: var(--ink);
+  font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+}
+
+.font-display {
+  font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+  font-optical-sizing: auto;
 }

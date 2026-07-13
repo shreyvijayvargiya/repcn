@@ -1,9 +1,9 @@
-import HelloCard from '@/components/HelloCard'
+import HomeForm from '@/components/HomeForm'
 
 export default function HomePage() {
   return (
-    <main className="mx-auto flex min-h-screen max-w-3xl items-center justify-center p-6">
-      <HelloCard />
+    <main className="min-h-screen">
+      <HomeForm />
     </main>
   )
 }
